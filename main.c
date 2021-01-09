@@ -48,10 +48,11 @@ FILE* open_file(char* name, char* mode) {
 }
 void code_logic(FILE* inputFile) {
     struct Table* table; //Table**
+    struct slovarik* slovarik;
     unsigned long n;
     table = analysFileByts(inputFile, &n);
-    struct Table* slovarik = freqListToNodes(table, n); // создает дерево //int**
-    write_coded_file(inputFile, n, &table);
+    slovarik = freqListToNodes(table, n); // создает дерево 
+    write_coded_file(inputFile, n, &table, slovarik,n);
     free(table);
     free(slovarik);
     fclose(inputFile);
@@ -59,10 +60,11 @@ void code_logic(FILE* inputFile) {
 }
 void decode_logic(FILE* inputFile) {
     struct Table* table;
+    struct slovarik* slovarik;
     unsigned long n;
     table = read_table_of_coded_file(inputFile, &n);
-    struct Table* slovarik = freqListToNodes(table, n); // создает дерево
-    write_decoded_file(inputFile);
+    slovarik = freqListToNodes(table, n); // создает дерево
+    write_decoded_file(inputFile, slovarik,n);
     free(slovarik);
     free(table);
     fclose(inputFile);

@@ -1,6 +1,6 @@
 #include "coder.h"
 
-unsigned int coder(char byte_from_file, char** file_byts, int end, struct Table* slovarik) {//получает байт из файла и индикатор конца (>0).
+unsigned int coder(char byte_from_file, char** file_byts, int end, struct slovarik* slovarik, unsigned long slov_len) {//получает байт из файла и индикатор конца (>0).
 	const unsigned int MAX_LENGTH = 1 * 1024 * 1024;
 	const unsigned int CHUNK_SIZE = 128;
 
@@ -39,7 +39,9 @@ unsigned int coder(char byte_from_file, char** file_byts, int end, struct Table*
 		buf = (char*)realloc(buf, sizeof(char*) * len);
 		//*table = box;// указатель на таблицу в другой функции
 	}
+
 	//T_Search(hunode * node, box * s, int mode)//получить строку префикса
+	pref_str = search_pref(slovarik, byte_from_file, slov_len);
 	pref_str = strcat(tmp, pref_str);
 	str_len = strlen(pref_str);
 	memset(tmp, '\0', 8);
@@ -73,6 +75,21 @@ unsigned int coder(char byte_from_file, char** file_byts, int end, struct Table*
 	}*/
 	return buf_pos;
 }
+char toDec(char* bin) { //char_bin_to_int
+	int tmp;
+	char x = 0;
+	uint size = strlen(bin);
+	int j = size - 1;
+	for (int i = 0; i < size; i++) {
+		//        printf("%c %d\n",bin[i],i);
+		if (bin[i] == '1') {
+			tmp = 1 << j;
+			x += tmp;
+		}
+		j--;
+	}
+	return x;
+}
 
 char getNextBit(byte_from_c_file) { // возвращает замаскирвоанный бит 
 	static char mask = 1;
@@ -99,7 +116,7 @@ void addBitToPreString(char* prefString, char bit) {
 	}
 }
 
-int decoder(char byte_from_c_file, char* finded_bytes) {//незначащие нули в конце файла?????
+int decoder(char byte_from_c_file, char* finded_bytes, struct slovarik* slovarik, unsigned long slov_len) {//незначащие нули в конце файла?????
 	static char pref_string [256];
 	static int init = 0;
 	//char finded_byts[8];//???????????
@@ -116,7 +133,7 @@ int decoder(char byte_from_c_file, char* finded_bytes) {//незначащие нули в конц
 		//pref_string[ptr_pref_string] = "";
 		
 		// добавить бит в строку префиска
-		if (/* префиск найден*/) {
+		if (search_byte(slovarik, &byte_by_prefix, pref_string, slov_len) > 0) {
 			memset(pref_string, '\0', 256);//обнуление строки 
 			finded_bytes[ptr_finded_byts] = byte_by_prefix;
 			ptr_finded_byts++;
@@ -125,24 +142,25 @@ int decoder(char byte_from_c_file, char* finded_bytes) {//незначащие нули в конц
 	//*finded_byte = finded_byts;//??????????
 	return ptr_finded_byts;
 }
-char toDec(char* bin) { //char_bin_to_int
-	int tmp;
-	char x = 0;
-	uint size = strlen(bin);
-	int j = size - 1;
-	for (int i = 0; i < size; i++) {
-		//        printf("%c %d\n",bin[i],i);
-		if (bin[i] == '1') {
-			tmp = 1 << j;
-			x += tmp;
-		}
-		j--;
-	}
-	return x;
-}
 
-slovarik_search{slovarik)
-	for
-	=bukva ? 
-		then pref=nuznui
+ char* search_pref(struct slovarik* slovarik, char byte, unsigned long n){
+	 char* pref;
+	 for (insigned long i = 0; i < n; i++) {
+		 if (byte == slovarik[i].byte){////////
+			pref = slovarik[i].pref;
+			break;
+		 }
+	 }
+	 return pref;
+}
+ int search_byte(struct slovarik* slovarik, char* byte, char* pref, unsigned long n) {
+	int find = 0;
+	for (insigned long i = 0; i < n; i++) {
+		if (strcmp(slovarik[i].pref, pref) == 0) {////////
+			*byte = slovarik[i].byte;//////
+			find = 1;
+			break;
+		}
+	}
+	return find;
 }
