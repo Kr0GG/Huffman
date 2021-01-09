@@ -8,6 +8,7 @@
 #include "coder.h"
 struct Table {
     char byteFromFile;
+    //char prefix[PREFLEN];
     int freq;
 };
 struct Table* analysFileByts(FILE*, unsigned long*);

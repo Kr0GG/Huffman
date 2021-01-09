@@ -1,6 +1,6 @@
 #include "coder.h"
 
-unsigned int coder(char byte_from_file, char** file_byts, int end) {//получает байт из файла и индикатор конца (>0).
+unsigned int coder(char byte_from_file, char** file_byts, int end, struct Table* slovarik) {//получает байт из файла и индикатор конца (>0).
 	const unsigned int MAX_LENGTH = 1 * 1024 * 1024;
 	const unsigned int CHUNK_SIZE = 128;
 
@@ -39,7 +39,7 @@ unsigned int coder(char byte_from_file, char** file_byts, int end) {//получает б
 		buf = (char*)realloc(buf, sizeof(char*) * len);
 		//*table = box;// указатель на таблицу в другой функции
 	}
-	//получить строку префикса
+	//T_Search(hunode * node, box * s, int mode)//получить строку префикса
 	pref_str = strcat(tmp, pref_str);
 	str_len = strlen(pref_str);
 	memset(tmp, '\0', 8);
@@ -139,4 +139,10 @@ char toDec(char* bin) { //char_bin_to_int
 		j--;
 	}
 	return x;
+}
+
+slovarik_search{slovarik)
+	for
+	=bukva ? 
+		then pref=nuznui
 }

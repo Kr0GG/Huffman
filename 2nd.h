@@ -7,21 +7,21 @@ typedef struct hunode {
     struct hunode* L,
         * R;
 } hunode;
-typedef struct ListItem {       
-    hunode* tekuwui;
-    ListItem* pNext;
-    ListItem* pPrev;
-}ListItem;
+//typedef struct ListItem {       
+//    hunode* tekuwui;
+//    ListItem* pNext;
+//    ListItem* pPrev;
+//}ListItem;
 typedef struct box {
     char data;
     char prefix[PREFLEN];
     unsigned int frequency;
     //struct box* next;
 } box;
-int freqListToNodes(box* linker, int strlen);
+int freqListToNodes(int* linker, int strlen);
 hunode* T_Insert(hunode* node, int ins);
-int T_Search(hunode* node, int s);
+int T_Search(hunode* node, box s, int mode);
 //void T_print(hunode* node, FILE* output);
 hunode* T_free(hunode* node);
-int perestanovka(hunode** mass, int strlen);
+int hunSort(int* mass, int strlen);
 #endif

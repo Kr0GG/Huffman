@@ -1,6 +1,9 @@
 #include "Header.h";
+#include "freqFind.h";
+#include "2nd.h"
+#include "coder.h"
 
-int main() {
+int main() {//
     FILE* file;
     unsigned long n;
     char command;
@@ -44,12 +47,13 @@ FILE* open_file(char* name, char* mode) {
     FILE* file = fopen(name, mode);
 }
 void code_logic(FILE* inputFile) {
-    struct Table* table;
+    struct Table* table; //Table**
     unsigned long n;
     table = analysFileByts(inputFile, &n);
-    //Ваня создает дерево
+    struct Table* slovarik = freqListToNodes(table, n); // создает дерево //int**
     write_coded_file(inputFile, n, &table);
     free(table);
+    free(slovarik);
     fclose(inputFile);
     printf("ok ok ok");
 }
@@ -57,8 +61,9 @@ void decode_logic(FILE* inputFile) {
     struct Table* table;
     unsigned long n;
     table = read_table_of_coded_file(inputFile, &n);
-    //Ваня создает дерево
+    struct Table* slovarik = freqListToNodes(table, n); // создает дерево
     write_decoded_file(inputFile);
+    free(slovarik);
     free(table);
     fclose(inputFile);
     printf("ok ok ok");
