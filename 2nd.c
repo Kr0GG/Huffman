@@ -8,7 +8,7 @@ int freqListToNodes(Table* linker, int strlen) {
 	box pair2;
 	box* pairmax;
 	//sortbox()>;
-	///po ubivaniu
+	//po ubivaniu
 	int len = strlen;
 	box* slovarik = (box*)malloc(sizeof(box) * strlen);
 	for (int i = 0; strlen != i; i++) {
@@ -125,8 +125,10 @@ int T_Search(hunode* node, box s, int mode) {
 			tmp = T_Search(node->R, s, prefix);
 		}
 	prefix[i] = '\0';
-	if (mode != 0) return *(prefix); // ukazatel'
-	else return tmp; // /* 0 or 1 */
+	if (mode != 0)
+		return *(prefix); // ukazatel'
+	else
+		return tmp; // /* 0 or 1 */
 }
 //int T_Search_fromPref(hunode* node, char s[], int strlen) {
 //	for (int i = 0; i != strlen; i++) {
@@ -190,23 +192,23 @@ hunode* T_free(hunode* node) {
 //	}
 //
 
-hunode* T_Insert(hunode* node, int ins) {
-	if (NULL == node) {
-		hunode* node = (hunode*)malloc(sizeof(hunode));
-		node->data = ins;
-		node->R = node->L = NULL;
-		return node;
-	}
-	else if (ins == node->data) {
-		printf("1 element was duplicated.\n");
-		return node;
-	}
-	else if (ins < node->data) {
-		node->L = T_Insert(node->L, ins);
-	}
-	else node->R = T_Insert(node->R, ins);
-	return node;
-}
+//hunode* T_Insert(hunode* node, int ins) {
+//	if (NULL == node) {
+//		hunode* node = (hunode*)malloc(sizeof(hunode));
+//		node->data = ins;
+//		node->R = node->L = NULL;
+//		return node;
+//	}
+//	else if (ins == node->data) {
+//		printf("1 element was duplicated.\n");
+//		return node;
+//	}
+//	else if (ins < node->data) {
+//		node->L = T_Insert(node->L, ins);
+//	}
+//		else node->R = T_Insert(node->R, ins);
+//	return node;
+//}
 //	int T_Search(hunode * node, char s, int prefix) {
 //		int tmp;
 //		int* i = 0;
@@ -235,14 +237,6 @@ hunode* T_Insert(hunode* node, int ins) {
 		//	if (node->R != NULL)
 		//		T_print(node->R, output);
 		//}
-
-int inttobits(int c, int n, char* s){
-	s[n] = 0;
-	while (n > 0) {
-		s[n - 1] = (c % 2) + '0';
-		c >>= 1; n--;
-	}
-}
 ///
 ///int T_Search(hunode* node, int s) {
 ///	int tmp;

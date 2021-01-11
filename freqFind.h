@@ -1,4 +1,5 @@
-#pragma once
+#ifndef main2_h_included
+#define main2_h_included
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -17,3 +18,4 @@ void analysByte(char, struct Table**, unsigned long*);
 void write_decoded_file(FILE*);
 void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Table** table, box* slovarik);
 struct Table* read_table_of_coded_file(FILE* Coded_file, unsigned long* n);
+#endif
