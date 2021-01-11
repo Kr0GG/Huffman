@@ -1,6 +1,6 @@
 #include "coder.h"
 
-unsigned int coder(char byte_from_file, char** file_byts, int end, struct slovarik* slovarik, unsigned long slov_len) {//получает байт из файла и индикатор конца (>0).
+unsigned int coder(char byte_from_file, char** file_byts, int end, box* slovarik, unsigned long slov_len) {//получает байт из файла и индикатор конца (>0).
 	const unsigned int MAX_LENGTH = 1 * 1024 * 1024;
 	const unsigned int CHUNK_SIZE = 128;
 
@@ -116,7 +116,7 @@ void addBitToPreString(char* prefString, char bit) {
 	}
 }
 
-int decoder(char byte_from_c_file, char* finded_bytes, struct slovarik* slovarik, unsigned long slov_len) {//незначащие нули в конце файла?????
+int decoder(char byte_from_c_file, char* finded_bytes, box* slovarik, unsigned long slov_len) {//незначащие нули в конце файла????? 
 	static char pref_string [256];
 	static int init = 0;
 	//char finded_byts[8];//???????????
@@ -143,21 +143,21 @@ int decoder(char byte_from_c_file, char* finded_bytes, struct slovarik* slovarik
 	return ptr_finded_byts;
 }
 
- char* search_pref(struct slovarik* slovarik, char byte, unsigned long n){
+ char* search_pref(struct box*slovarik, char byte, unsigned long n){
 	 char* pref;
-	 for (insigned long i = 0; i < n; i++) {
-		 if (byte == slovarik[i].byte){////////
-			pref = slovarik[i].pref;
+	 for (unsigned long i = 0; i < n; i++) {
+		 if (byte == slovarik[i].data){////////
+			pref = slovarik[i].prefix;
 			break;
 		 }
 	 }
 	 return pref;
 }
- int search_byte(struct slovarik* slovarik, char* byte, char* pref, unsigned long n) {
+ int search_byte(struct box* slovarik, char* byte, char* pref, unsigned long n) {
 	int find = 0;
-	for (insigned long i = 0; i < n; i++) {
-		if (strcmp(slovarik[i].pref, pref) == 0) {////////
-			*byte = slovarik[i].byte;//////
+	for (unsigned long i = 0; i < n; i++) {
+		if (strcmp(slovarik[i].prefix, pref) == 0) {////////
+			*byte = slovarik[i].data;//////
 			find = 1;
 			break;
 		}

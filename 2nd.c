@@ -1,6 +1,6 @@
 #include "2nd.h"
 #include <cstddef>
-int freqListToNodes(int* linker, int strlen) {
+int freqListToNodes(Table* linker, int strlen) {
 	unsigned int freq = 1000;
 	unsigned int freq2 = 1000, n;
 	box pair;
@@ -10,6 +10,11 @@ int freqListToNodes(int* linker, int strlen) {
 	///po ubivaniu
 	int len = strlen;
 	box* slovarik = (box*)malloc(sizeof(box) * strlen);
+	for (int i = 0; strlen != i; i++) {
+		slovarik[i].data == linker[i].byteFromFile;
+		slovarik[i].frequency = linker[i].freq;
+		//goto further;
+	}
 	while (len != 0) {
 		for (n = 0; n+1 != len; n++) { //  (n = 0; strlen != len; n++); len++
 			pair = slovarik[n];

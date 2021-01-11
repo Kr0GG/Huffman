@@ -48,7 +48,7 @@ FILE* open_file(char* name, char* mode) {
 }
 void code_logic(FILE* inputFile) {
     struct Table* table; //Table**
-    struct slovarik* slovarik;
+    box* slovarik;
     unsigned long n;
     table = analysFileByts(inputFile, &n);
     slovarik = freqListToNodes(table, n); // создает дерево 

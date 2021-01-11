@@ -18,6 +18,11 @@ typedef struct box {
     unsigned int frequency;
     //struct box* next;
 } box;
+typedef struct Table {
+    char byteFromFile;
+    //char prefix[PREFLEN];
+    unsigned int freq;
+}Table;
 int freqListToNodes(int* linker, int strlen);
 hunode* T_Insert(hunode* node, int ins);
 int T_Search(hunode* node, box s, int mode);

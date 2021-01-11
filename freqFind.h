@@ -13,7 +13,7 @@ struct Table {
     unsigned int freq;
 };
 struct Table* analysFileByts(FILE*, unsigned long*);
-void analysByte(char, struct Table**);
+void analysByte(char, struct Table**, unsigned long*);
 void write_decoded_file(FILE*);
-void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Table** table, struct slovarik slovarik);
+void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Table** table, box* slovarik);
 struct Table* read_table_of_coded_file(FILE* Coded_file, unsigned long* n);

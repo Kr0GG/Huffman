@@ -1,4 +1,5 @@
 ﻿#include "Header.h";
+#include "2nd.h"
 
 const unsigned int MAX_LENGTH = 1 * 1024 * 1024;
 const unsigned int CHUNK_SIZE = 128;
@@ -66,7 +67,7 @@ struct Table* read_table_of_coded_file(FILE* Coded_file, unsigned long* n) {
     }
     return table;
 }
-void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Table** table, struct slovarik* slovarik) {
+void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Table** table, box* slovarik) {
     FILE* output = NULL;
     char buf;
     char* coded_byts;

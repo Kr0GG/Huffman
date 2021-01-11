@@ -139,14 +139,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\huff.c" />
     <ClCompile Include="2nd.c" />
+    <ClCompile Include="coder.c" />
     <ClCompile Include="freqFind.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="Source.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Huff.h" />
     <ClInclude Include="2nd.h" />
+    <ClInclude Include="coder.h" />
     <ClInclude Include="freqFind.h" />
+    <ClInclude Include="Header.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
