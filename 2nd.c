@@ -1,6 +1,6 @@
 #include "2nd.h"
 #include "Header.h"
-#include <cstddef>
+//#include <cstddef>
 int freqListToNodes(Table* linker, int strlen) {
 	unsigned int freq = 1000;
 	unsigned int freq2 = 1000, n;

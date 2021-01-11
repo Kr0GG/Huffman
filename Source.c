@@ -1,4 +1,3 @@
-
 #include "Header.h";
 
 const unsigned int MAX_LENGTH = 1 * 1024 * 1024;  
