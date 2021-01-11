@@ -1,5 +1,5 @@
-#include "Header.h";
-#include "freqFind.h";
+#include "Header.h"
+#include "freqFind.h"
 #include "2nd.h"
 #include "coder.h"
 
