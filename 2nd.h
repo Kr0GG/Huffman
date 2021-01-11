@@ -12,18 +12,12 @@ typedef struct hunode {
 //    ListItem* pNext;
 //    ListItem* pPrev;
 //}ListItem;
-typedef struct box {
-    char data;
-    char prefix[PREFLEN];
-    unsigned int frequency;
-    //struct box* next;
-} box;
 //typedef struct Table {
 //    char byteFromFile;
 //    //char prefix[PREFLEN];
 //    unsigned int freq;
 //}Table;
-int freqListToNodes(int* linker, int strlen);
+int freqListToNodes(Table* linker, int strlen);
 hunode* T_Insert(hunode* node, int ins);
 int T_Search(hunode* node, box s, int mode);
 //void T_print(hunode* node, FILE* output);

@@ -6,11 +6,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "coder.h"
-struct Table {
+typedef struct Table {
     char byteFromFile;
     //char prefix[PREFLEN];
     int freq;
-};
+}Table;
+typedef struct box {
+    char data;
+    char prefix[PREFLEN];
+    unsigned int frequency;
+    //struct box* next;
+} box;
 struct Table* analysFileByts(FILE*, unsigned long*);
 void analysByte(char, struct Table**);
 void write_decoded_file(FILE* Input_file, box* slov, unsigned long lenght);

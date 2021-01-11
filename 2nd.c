@@ -60,10 +60,15 @@ int freqListToNodes(Table* linker, int strlen) {
 		lownow = mass + i;
 	}
 	int* node = *(mass); //linker for koren'
-	for (int i = len; i+1 != 0; i--) {
-		//free
-		(free(*(mass + i)) == 0) ? printf("finally got free one more value") : printf("not success");
-	}
+	//free nodes//
+	T_free(node);
+//for (int i = len; i+1 != 0; i--) {
+//	//free
+//	long int 
+//	(free(*(mass + i)) == 0) ? printf("finally got free one more value") : printf("not success");
+//}
+
+	free(mass);
 	//char prefix[PREFLEN];
 	for (int i = 0; i != n+1; i++) { //box_value = from ch to prefix
 		pair = slovarik[i];
@@ -184,7 +189,8 @@ hunode* T_free(hunode* node) {
 //		}
 //	}
 //
-hunode* T_Insert(hunode * node, int ins) {
+
+hunode* T_Insert(hunode* node, int ins) {
 	if (NULL == node) {
 		hunode* node = (hunode*)malloc(sizeof(hunode));
 		node->data = ins;
