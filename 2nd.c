@@ -8,7 +8,7 @@ int freqListToNodes(Table* linker, int strlen) {
 	box pair2;
 	box* pairmax;
 	//sortbox()>;
-	///po ubivaniu
+	//po ubivaniu
 	int len = strlen;
 	box* slovarik = (box*)malloc(sizeof(box) * strlen);
 	for (int i = 0; strlen != i; i++) {

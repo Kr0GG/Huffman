@@ -1,5 +1,9 @@
 #include "coder.h"
 
+char* search_pref(box* slovarik, char byte, unsigned long n);
+int search_byte(struct box* slovarik, char byte, char* pref, unsigned long n);
+char toDec(char* bin);
+
 unsigned int coder(char byte_from_file, char** file_byts, int end, box* slovarik, unsigned long slov_len) {//получает байт из файла и индикатор конца (>0).
 	const unsigned int MAX_LENGTH = 1 * 1024 * 1024;
 	const unsigned int CHUNK_SIZE = 128;
@@ -143,8 +147,8 @@ int decoder(char byte_from_c_file, char* finded_bytes, box* slovarik, unsigned l
 	return ptr_finded_byts;
 }
 
- char* search_pref(struct box*slovarik, char byte, unsigned long n){
-	 char* pref;
+ char* search_pref( box* slovarik, char byte, unsigned long n){
+	 char* pref = NULL;
 	 for (unsigned long i = 0; i < n; i++) {
 		 if (byte == slovarik[i].data){////////
 			pref = slovarik[i].prefix;

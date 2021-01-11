@@ -70,7 +70,7 @@ struct Table* read_table_of_coded_file(FILE* Coded_file, unsigned long* n) {
 void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Table** table, box* slovarik) {
     FILE* output = NULL;
     char buf;
-    char* coded_byts;
+    char* coded_byts = NULL;
     unsigned int count_byts = 0;
 
     output = fopen("output.bin", "wb");
@@ -90,8 +90,8 @@ void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Ta
     while (fread(&buf, sizeof(char), 1, Original_file) == 1) {
         count_byts = coder(buf, &coded_byts, 0, slovarik, lenght_table);
     }
-    if (feof(F)) {
-        count_byts = coder(buf, &coded_byts, 1, slovarik);
+    if (feof(Original_file)) {
+        count_byts = coder(buf, &coded_byts, 1, slovarik , lenght_table);
     }
     else {
         printf("Error reading file wcf");

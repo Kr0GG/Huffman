@@ -3,6 +3,9 @@
 #include "2nd.h"
 #include "coder.h"
 
+void decode_logic(FILE* inputFile);
+void code_logic(FILE* inputFile);
+FILE* open_file(char* name, char* mode);
 int main() {//
     FILE* file;
     unsigned long n;
