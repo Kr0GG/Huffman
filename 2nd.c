@@ -1,4 +1,5 @@
 #include "2nd.h"
+#include "Header.h"
 #include <cstddef>
 int freqListToNodes(Table* linker, int strlen) {
 	unsigned int freq = 1000;
@@ -183,23 +184,23 @@ hunode* T_free(hunode* node) {
 //		}
 //	}
 //
-	hunode* T_Insert(hunode * node, int ins) {
-		if (NULL == node) {
-			hunode* node = (hunode*)malloc(sizeof(hunode));
-			node->data = ins;
-			node->R = node->L = NULL;
-			return node;
-		}
-		else if (ins == node->data) {
-			printf("1 element was duplicated.\n");
-			return node;
-		}
-		else if (ins < node->data) {
-			node->L = T_Insert(node->L, ins);
-		}
-		else node->R = T_Insert(node->R, ins);
+hunode* T_Insert(hunode * node, int ins) {
+	if (NULL == node) {
+		hunode* node = (hunode*)malloc(sizeof(hunode));
+		node->data = ins;
+		node->R = node->L = NULL;
 		return node;
 	}
+	else if (ins == node->data) {
+		printf("1 element was duplicated.\n");
+		return node;
+	}
+	else if (ins < node->data) {
+		node->L = T_Insert(node->L, ins);
+	}
+	else node->R = T_Insert(node->R, ins);
+	return node;
+}
 //	int T_Search(hunode * node, char s, int prefix) {
 //		int tmp;
 //		int* i = 0;
@@ -229,14 +230,13 @@ hunode* T_free(hunode* node) {
 		//		T_print(node->R, output);
 		//}
 
-	int inttobits(int c, int n, char* s)
-	{
-		s[n] = 0;
-		while (n > 0) {
-			s[n - 1] = (c % 2) + '0';
-			c >>= 1; n--;
-		}
+int inttobits(int c, int n, char* s){
+	s[n] = 0;
+	while (n > 0) {
+		s[n - 1] = (c % 2) + '0';
+		c >>= 1; n--;
 	}
+}
 ///
 ///int T_Search(hunode* node, int s) {
 ///	int tmp;
@@ -254,3 +254,4 @@ hunode* T_free(hunode* node) {
 ///	tmp = T_Search(node->R, s);
 ///	return tmp; /* 0 or 1 */
 ///}
+///

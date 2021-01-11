@@ -1,4 +1,4 @@
-﻿#include "Header.h";
+﻿#include "Header.h"
 #include "2nd.h"
 
 const unsigned int MAX_LENGTH = 1 * 1024 * 1024;
