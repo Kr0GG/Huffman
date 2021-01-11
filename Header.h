@@ -13,3 +13,5 @@ struct Table {
 };
 struct Table* analysFileByts(FILE*, unsigned long*);
 void analysByte(char, struct Table**);
+void write_decoded_file(FILE* Input_file, box* slov, unsigned long lenght);
+void write_coded_file( FILE* inputFile, unsigned long n, struct Table** , box* slovarik);

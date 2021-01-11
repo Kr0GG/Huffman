@@ -52,7 +52,7 @@ void code_logic(FILE* inputFile) {
     unsigned long n;
     table = analysFileByts(inputFile, &n);
     slovarik = freqListToNodes(table, n); // создает дерево 
-    write_coded_file(inputFile, n, &table, slovarik,n);
+    write_coded_file(inputFile, n, &table, slovarik);
     free(table);
     free(slovarik);
     fclose(inputFile);

@@ -67,7 +67,7 @@ struct Table* read_table_of_coded_file(FILE* Coded_file, unsigned long* n) {
     }
     return table;
  }
- void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Table** table, struct Table** slovarik) {
+ void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Table** table, box* slovarik) {
      FILE* output = NULL;
      char buf;
      char* coded_byts;
@@ -88,10 +88,10 @@ struct Table* read_table_of_coded_file(FILE* Coded_file, unsigned long* n) {
      }
      rewind(Original_file);
      while (fread(&buf, sizeof(char), 1, Original_file) == 1) {
-         count_byts = coder(buf, &coded_byts, 0, slovarik);
+         count_byts = coder(buf, &coded_byts, 0, slovarik, lenght_table);
      }
      if (feof(F)) {
-         count_byts = coder(buf, &coded_byts, 1, slovarik);
+         count_byts = coder(buf, &coded_byts, 1, slovarik, lenght_table);
      }
      else {
          printf("Error reading file wcf");
@@ -109,7 +109,7 @@ struct Table* read_table_of_coded_file(FILE* Coded_file, unsigned long* n) {
 
      fclose(output);
  }
-void write_decoded_file(FILE* Input_file /*, указатель на начало данных в закодированном файле*/){
+void write_decoded_file(FILE* Input_file , box* slov, unsigned long lenght){
       FILE* output = NULL;
       char buf;
       char bytesDecodedFieBuf[8];
@@ -122,7 +122,7 @@ void write_decoded_file(FILE* Input_file /*, указатель на начало данных в закоди
       }
 
       while (fread(&buf, sizeof(char), 1, Input_file) == 1) {
-          if (count = decoder(buf, bytesDecodedFieBuf) != 0) {
+          if (count = decoder(buf, bytesDecodedFieBuf, slov, lenght) != 0) {
               fwrite(bytesDecodedFieBuf, sizeof(char), count, output);
           }
       }
