@@ -40,7 +40,7 @@ int freqListToNodes(Table* linker, int strlen) {
 		node->data = pair.data;
 		node->L = NULL;
 		node->R = NULL;
-		*(mass + i * sizeof(int)) = node;
+		//*(mass + i * sizeof(int)) = node;
 	}
 	hunode** smallest = mass + n + 2; //i // linker on address for last element
 	hunode* tmp;
@@ -50,7 +50,7 @@ int freqListToNodes(Table* linker, int strlen) {
 		hunode* node = (hunode*)malloc(sizeof(hunode));
 		tmp = *(mass + i * sizeof(int)-1);
 		//prevlow = *tmp;
-		node->frequency = tmp->frequency+lownow->frequency;
+		//node->frequency = tmp->frequency+lownow->frequency;
 		node->data = NULL;
 		node->L = lownow;
 		node->R = tmp;
@@ -74,9 +74,9 @@ int freqListToNodes(Table* linker, int strlen) {
 		pair = slovarik[i];
 		*(pair.prefix) = T_Search(node, pair, 1); //! or one more value for swap
 	}
-	free_linker(); // delete box's
-	linker = slovarik;
-	return linker;
+	//free_linker(); // delete box's
+	//linker = slovarik;
+	return slovarik;
 }
 int hunSort(int* mass, int strlen) {
 	box* pair;

@@ -157,6 +157,9 @@
     <ClInclude Include="strl.h" />
     <ClInclude Include="table.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="f.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

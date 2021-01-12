@@ -19,7 +19,7 @@ int main() {//
         printf("0- code, 1 - decode");
         command = getch();
         if (command == 0) {
-            file = open_file("f.txt", "rb");
+            file = open_file("header.h", "rb");
             if (file == NULL) {
                 printf("Programm can't open File");
                 getch();
