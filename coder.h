@@ -2,6 +2,7 @@
 #define main3_h_included
 #define _CRT_SECURE_NO_WARNINGS
 #include <string.h>
+
 #include "2nd.h"
 #define uint unsigned int
 #define PREFLEN 256

@@ -148,13 +148,13 @@
     <ClCompile Include="coder.c" />
     <ClCompile Include="freqFind.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="Source.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2nd.h" />
     <ClInclude Include="coder.h" />
     <ClInclude Include="freqFind.h" />
     <ClInclude Include="Header.h" />
+    <ClInclude Include="strl.h" />
     <ClInclude Include="table.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,8 +1,10 @@
 ﻿#include "Header.h"
-#include "2nd.h"
+//#include "2nd.h"
+#include "freqFind.h"
 
 const unsigned int MAX_LENGTH = 1 * 1024 * 1024;
 const unsigned int CHUNK_SIZE = 128;
+
 
 /*struct Table{
     char byteFromFile;

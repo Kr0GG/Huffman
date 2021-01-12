@@ -1,5 +1,6 @@
 #include "coder.h"
 //#include "2nd.h"
+#include "strl.h"
 
 char* search_pref(box* slovarik, char byte, unsigned long n);
 int search_byte(struct box* slovarik, char byte, char* pref, unsigned long n);
