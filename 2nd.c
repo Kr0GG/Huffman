@@ -12,12 +12,13 @@ int freqListToNodes(Table* linker, int strlen) {
 	int len = strlen;
 	box* slovarik = (box*)malloc(sizeof(box) * strlen);
 	for (int i = 0; strlen != i; i++) {
-		slovarik[i].data == linker[i].byteFromFile;
+		slovarik[i].data = linker[i].byteFromFile;
 		slovarik[i].frequency = linker[i].freq;
 		//goto further;
 	}
+
 	while (len != 0) {
-		for (n = 0; n+1 != len; n++) { //  (n = 0; strlen != len; n++); len++
+		for (n = 0; n + 1 != len; n++) { //  (n = 0; strlen != len; n++); len++
 			pair = slovarik[n];
 			freq = pair.frequency;
 			pair2 = slovarik[n + 1];
@@ -26,51 +27,53 @@ int freqListToNodes(Table* linker, int strlen) {
 			//len++;
 			if (freq < freq2) {
 				slovarik[n] = pair2;
-				slovarik [n + 1] = pair;
+				slovarik[n + 1] = pair;
 			}
 		}
 		len--;
 	}
 	len = strlen;
-	int* mass = (int*)malloc(sizeof(int) * (n + 1)); // linker's mass of hunode's
-	for (int i = 0; i != n + 2; i++) {
+	hunode** mass = (hunode**)malloc(sizeof(hunode*) * (n + 1)); // linker's mass of hunode's
+	for (int i = 0; i != len+1; i++) {
 		hunode* node = (hunode*)malloc(sizeof(hunode));
 		pair = slovarik[i];
 		node->frequency = pair.frequency;//realloc()
 		node->data = pair.data;
 		node->L = NULL;
 		node->R = NULL;
-		//*(mass + i * sizeof(int)) = node;
+		mass[i] = node;
 	}
-	hunode** smallest = mass + n + 2; //i // linker on address for last element
+	hunode* smallest = mass[len-1]; //i // linker on address for last element
 	hunode* tmp;
 	hunode* lownow, prevlow; // for loop, linkers
-	lownow = *smallest;
+	lownow = smallest;
+	printmas(mass, strlen);
 	for (int i = len; i != 1; i--) { //search_koren' = comprasing
 		hunode* node = (hunode*)malloc(sizeof(hunode));
-		tmp = *(mass + i * sizeof(int)-1);
+		tmp = mass[i- 2];
 		//prevlow = *tmp;
-		//node->frequency = tmp->frequency+lownow->frequency;
+		node->frequency = tmp->frequency+lownow->frequency;
 		node->data = NULL;
 		node->L = lownow;
 		node->R = tmp;
-		*(mass + i * sizeof(int)-1) = node;
-		*(mass + i * sizeof(int)) = NULL;
-		mass = hunSort(mass, i); 
-		lownow = mass + i;
+		mass[i - 2]= node;
+		mass[i-1] = NULL;
+		printmas(mass, i-1);
+		mass = hunSort(mass, i);
+		lownow = mass[i];
 	}
 	int* node = *(mass); //linker for koren'
 	//free nodes//
 	T_free(node);
-//for (int i = len; i+1 != 0; i--) {
-//	//free
-//	long int 
-//	(free(*(mass + i)) == 0) ? printf("finally got free one more value") : printf("not success");
-//}
+	//for (int i = len; i+1 != 0; i--) {
+	//	//free
+	//	long int 
+	//	(free(*(mass + i)) == 0) ? printf("finally got free one more value") : printf("not success");
+	//}
 
 	free(mass);
 	//char prefix[PREFLEN];
-	for (int i = 0; i != n+1; i++) { //box_value = from ch to prefix
+	for (int i = 0; i != n + 1; i++) { //box_value = from ch to prefix
 		pair = slovarik[i];
 		*(pair.prefix) = T_Search(node, pair, 1); //! or one more value for swap
 	}
@@ -78,26 +81,38 @@ int freqListToNodes(Table* linker, int strlen) {
 	//linker = slovarik;
 	return slovarik;
 }
-int hunSort(int* mass, int strlen) {
-	box* pair;
-	box* pair2;
-	unsigned int freq;
-	unsigned int freq2;
+hunode** hunSort(hunode** mass, int strlen) {
+	hunode* pr1;
+	hunode* pr2;
+	unsigned int frq;
+	unsigned int frq2;
 	while (strlen != 0) {
-		for (int j = 0; strlen != j+1; j++) {
-			pair = mass[j];
-			freq = pair->frequency;
-			pair2 = mass[j + 1];
-			freq2 = pair2->frequency;
+		for (int j = 0; strlen != j + 1; j++) {
+			printmas(mass, strlen);
+			pr1 = mass[j];
+			frq = pr1->frequency;
+			pr2 = mass[j + 1];
+			if (pr2 == NULL) continue;
+			frq2 = pr2->frequency;
 			//len++;
 			//len++;
-			if (freq < freq2) {
-				mass[j] = pair2;
-				mass[j + 1] = pair;
+			if (frq < frq2) {
+				mass[j] = pr2;
+				mass[j + 1] = pr1;
 			}
 		}
 		strlen--;
+		printmas(mass, strlen);
+		return mass;
 	}
+}
+void printmas(hunode** mass, int len) {
+	for (len; len != 0; len--) {
+		if (NULL != mass[len - 1]) {
+			printf("\n %d data \n", mass[len - 1]->frequency);
+		}
+	}
+	printf("konec\n");
 }
 int T_Search(hunode* node, box s, int mode) {
 	int tmp;
@@ -130,27 +145,27 @@ int T_Search(hunode* node, box s, int mode) {
 	else
 		return tmp; // /* 0 or 1 */
 }
-//int T_Search_fromPref(hunode* node, char s[], int strlen) {
-//	for (int i = 0; i != strlen; i++) {
-//		if (node->data = s) {
-//			s = node->data;
-//			return s;
-//		}
-//		if (s[i] == 1) {
-//			if (node->R != 0) {
-//				node = node->R;
-//			}
-//			else printf("problems with finding char from prefix");
-//		}
-//		if (s[i] == 0) {
-//			if (node->L != 0) {
-//				node = node->L;
-//			}
-//			else printf("problems with finding char from prefix");
-//		}
-//	}
-//	return s;
-//}
+int T_Search_fromPref(hunode* node, char s[], int strlen) {
+	for (int i = 0; i != strlen; i++) {
+		if (node->data = s) {
+			s = node->data;
+			return s;
+		}
+		if (s[i] == 1) {
+			if (node->R != 0) {
+				node = node->R;
+			}
+			else printf("problems with finding char from prefix");
+		}
+		if (s[i] == 0) {
+			if (node->L != 0) {
+				node = node->L;
+			}
+			else printf("problems with finding char from prefix");
+		}
+	}
+	return s;
+}
 hunode* T_free(hunode* node) {
 	if (NULL != node->L)
 		node->L = T_free(node->L);
@@ -161,7 +176,7 @@ hunode* T_free(hunode* node) {
 }
 
 
-	//T_free(node);
+//T_free(node);
 //for (int i = n+2; prevlow.frequency != -1; i--) {
 //	//lownow = smallest;
 //		if (lownow < *(mass+i)) {

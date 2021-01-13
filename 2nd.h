@@ -31,5 +31,7 @@ int freqListToNodes(Table* linker, int strlen);
 int T_Search(hunode* node, box s, int mode);
 //void T_print(hunode* node, FILE* output);
 hunode* T_free(hunode* node);
-int hunSort(int* mass, int strlen);
+hunode** hunSort(hunode** mass, int strlen);
+void printmas(hunode** mass, int len);
+int T_Search_fromPref(hunode* node, char s[], int strlen);
 #endif
