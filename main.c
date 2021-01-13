@@ -11,15 +11,15 @@ int main() {//
     unsigned long n;
     char command;
 
-    /*file = fopen("f.txt", "rb");
-    if (file == NULL) {
-        printf("hhhhh");
-    }*/
+//file = fopen("f.txt", "rb");
+//if (file == NULL) {
+//    printf("hhhhh");
+//}
     do {
         printf("0- code, 1 - decode");
         command = getch();
         if (command == '0') {
-            file = open_file("f.txt", "rb");
+            file = open_file("f.txt", "r");
             if (file == NULL) {
                 printf("Programm can't open File");
                 getch();
