@@ -123,7 +123,7 @@ void write_decoded_file(FILE* Input_file , struct slovarik* slovarik,unsigned lo
     char buf;
     char bytesDecodedFieBuf[8];
     int count = 0;
-    output = fopen("output.bin", "wb");
+    output = fopen("output2.bin", "wb");
     if (output == NULL) {
         printf("Error opening file");
         getch();
@@ -131,7 +131,8 @@ void write_decoded_file(FILE* Input_file , struct slovarik* slovarik,unsigned lo
     }
 
     while (fread(&buf, sizeof(char), 1, Input_file) == 1){
-        if (count = decoder(buf, bytesDecodedFieBuf, slovarik, lenght_table) != 0) {
+        count = decoder(buf, bytesDecodedFieBuf, slovarik, lenght_table);
+        if (count != 0) {
             counter_writed_byts += count;
             if (counter_writed_byts <= byts) {
                 // ***** //
@@ -146,7 +147,7 @@ void write_decoded_file(FILE* Input_file , struct slovarik* slovarik,unsigned lo
                     // ***** //
                     debug(bytesDecodedFieBuf, 1, 0);
                     // ***** //
-                    fwrite(bytesDecodedFieBuf[i], sizeof(char), 1, output);
+                    fwrite(bytesDecodedFieBuf, sizeof(char), 1, output);
                 }
                 // ***** //
                 debug(bytesDecodedFieBuf, 0, 1);

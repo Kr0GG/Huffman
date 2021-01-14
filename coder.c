@@ -13,9 +13,10 @@ unsigned int coder(char byte_from_file, char** file_byts, int end, box* slovarik
 	static unsigned int len = 128, buf_pos = 0;
 	static char* buf; //массив сжатых данных из файла
 	static int init = 0;
-	static char tmp[8];//остаток 
+	static char tmp[32];//остаток 
 	static int c = 0;
 
+	char pref_pref[4024];
 	char tmp_buf;//один байт префикса
 	char* pref_str; //строка префикса
 	char str_byte_tmp[9];
@@ -31,7 +32,7 @@ unsigned int coder(char byte_from_file, char** file_byts, int end, box* slovarik
 	if (end > 0) {
 		if ((strlen(tmp)) != 0) {
 			char* nuls = "00000000";
-			strlcat(tmp, nuls, 8 - c);//дописать 8- длина строки остатк2олнить tmp нулями до 8 байт и записать в buf
+			strlcat(tmp, nuls, 10 - c);//дописать 8- длина строки остатк2олнить tmp нулями до 8 байт и записать в buf
 			tmp_buf = toDec(tmp);
 			buf[buf_pos] = tmp_buf;
 			buf_pos++;
@@ -47,13 +48,14 @@ unsigned int coder(char byte_from_file, char** file_byts, int end, box* slovarik
 	}
 
 	//T_Search(hunode * node, box * s, int mode)//получить строку префикса
-	pref_str = search_pref(slovarik, byte_from_file, slov_len);
-	pref_str = strcat(tmp, pref_str);
-	str_len = strlen(pref_str);
+	/*pref_pref = */search_pref(slovarik, byte_from_file, pref_pref, slov_len);
+	/*tmp = */strcat(tmp, pref_pref);
+	/*pref_pref = */strcpy(pref_pref, tmp);
+	str_len = strlen(pref_pref);
 	memset(tmp, '\0', 8);
 
 	while ((str_len - str_pos) >= 8) {//  неразобранные символы
-		strlcpy(str_byte_tmp, pref_str + str_pos, 9); //8 cимволов с установкой "\0" в конец строки
+		strlcpy(str_byte_tmp, pref_pref + str_pos, 9); //8 cимволов с установкой "\0" в конец строки
 		//tmp_buf = str...(от str_pos, до str_pos + 8??? -1 ) полусить байт и записать его в буфер
 		tmp_buf = toDec(str_byte_tmp);
 		buf[buf_pos] = tmp_buf;
@@ -61,7 +63,7 @@ unsigned int coder(char byte_from_file, char** file_byts, int end, box* slovarik
 		str_pos += 8;
 	}
 	if ((str_len - str_pos) != 0) {
-		int c = strlcpy(tmp, pref_str + str_pos, 8);// до 8 символов???????
+		c = strlcpy(tmp, pref_pref + str_pos, 8);// до 8 символов???????
 		//tmp = str...(от str_pos, до (str_len - str_pos) - 1)
 		/*if (end > 0) {
 			char* nuls = "00000000";
@@ -83,7 +85,7 @@ unsigned int coder(char byte_from_file, char** file_byts, int end, box* slovarik
 }
 char toDec(char* bin) { //char_bin_to_int
 	int tmp;
-	char x = 0;
+	int x = 0;
 	uint size = strlen(bin);
 	int j = size - 1;
 	for (int i = 0; i < size; i++) {
@@ -94,31 +96,33 @@ char toDec(char* bin) { //char_bin_to_int
 		}
 		j--;
 	}
-	return x;
+	return (char)x;
 }
 
-char getNextBit(byte_from_c_file) { // возвращает замаскирвоанный бит 
-	static char mask = 1;
+char getNextBit(char byte_from_c_file) { // возвращает замаскирвоанный бит 
+	static int mask = 128;
 	static int counter = 0;
 	char newBit = 0;
+
 	newBit = byte_from_c_file & mask;
-	mask << 1;
+	mask = mask / 2;
 	counter++;
 	if (counter == 8) {
-		mask = 1;
+		mask = 128;
 		counter = 0;
 	}
+	return newBit;
 }
 
 void addBitToPreString(char* prefString, char bit) {
-	int endStr = sizeof(prefString);
+	int endStr = strlen(prefString);
 	if (bit == 0) {
-		prefString[endStr] = "0";
-		prefString[endStr+1] = "\0";
+		prefString[endStr] = '0';
+		prefString[endStr+1] = '\0';
 	}
 	else {
-		prefString[endStr] = "1";
-		prefString[endStr + 1] = "\0";
+		prefString[endStr] = '1';
+		prefString[endStr + 1] = '\0';
 	}
 }
 
@@ -149,15 +153,16 @@ int decoder(char byte_from_c_file, char* finded_bytes, box* slovarik, unsigned l
 	return ptr_finded_byts;
 }
 
- char* search_pref( box* slovarik, char byte, unsigned long n){
+ char* search_pref( box* slovarik, char byte, char * ret_byte,  unsigned long n){
 	 char* pref = NULL;
 	 for (unsigned long i = 0; i < n; i++) {
 		 if (byte == slovarik[i].data){////////
-			pref = slovarik[i].prefix;
+			 pref = slovarik[i].prefix;
+			 strcpy(ret_byte, pref);
 			break;
 		 }
 	 }
-	 return pref;
+	 return ret_byte;
 }
  int search_byte(struct box* slovarik, char* byte, char* pref, unsigned long n) {
 	int find = 0;
