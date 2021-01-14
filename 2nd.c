@@ -111,25 +111,26 @@ int freqListToNodes(Table* linker, int strlen) {
 //}
 
 void doPref(hunode* node, char arr[], int top, box* slovarik) {
+	static int i = 0; 
 	if (node->L) {
 		arr[top] = '0';
 		doPref(node->L, arr, top + 1, slovarik);
+	}
+		if (!(node->L) && !(node->R)) { //IsLeaf
+		//arr[top+1] = '\0';
+		for (int j = 0; j != strlen; j++) //??
+			if (node->data == slovarik[j].data) {
+				for (i = 0; i < top; i++)
+					slovarik[j].prefix[i] = arr[i];
+				slovarik[j].prefix[i] = '\0';
+				break;//j = strlen;
+				//j--;
+			}
 	}
 	if (node->R) {
 		arr[top] = '1';
 		doPref(node->R, arr, top + 1, slovarik);
 	}
-	if (!(node->L) && !(node->R)) { //IsLeaf
-		arr[top+1] = '\0';
-		for (int j = 0; j != strlen; j++) //??
-			if (node->data == slovarik[j].data) {
-				for (int i = 0; i < top+1; i++)
-					slovarik[j].prefix[i] = arr[i];
-				break;//j = strlen;
-				//j--;
-			}
-	}
-
 }
 hunode** hunSort(hunode** mass, int strlen) {
 	hunode* pr1;
