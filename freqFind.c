@@ -78,7 +78,7 @@ void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Ta
     char* coded_byts = NULL;
     unsigned int count_byts = 0;
 
-    output = fopen("output.rtf", "wb");
+    output = fopen("output.bin", "wb");
     if (output == NULL) {
         printf("Error opening file");
         getch();
@@ -108,7 +108,7 @@ void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Ta
         getch();
     }
     else {
-        printf("finally compressed file!!!\nFile name - output.rtf\n");
+        printf("finally compressed file!!!\nFile name - output.bin\n");
         getch();
     }
 
