@@ -115,7 +115,9 @@ void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Ta
 
     fclose(output);
 }
-void write_decoded_file(FILE* Input_file , struct slovarik* slovarik,unsigned long lenght_table, unsigned long byts/*, указатель на начало данных в закодированном файле*/) {
+
+void debug(char* bytesDecodedFieBuf, int count, int print_this);
+void write_decoded_file(FILE* Input_file , struct slovarik* slovarik,unsigned long lenght_table, unsigned long byts) {
     unsigned long counter_writed_byts = 0;
     FILE* output = NULL;
     char buf;
@@ -132,14 +134,23 @@ void write_decoded_file(FILE* Input_file , struct slovarik* slovarik,unsigned lo
         if (count = decoder(buf, bytesDecodedFieBuf, slovarik, lenght_table) != 0) {
             counter_writed_byts += count;
             if (counter_writed_byts <= byts) {
+                // ***** //
+                debug(bytesDecodedFieBuf, count,0);
+                // ***** //
                 fwrite(bytesDecodedFieBuf, sizeof(char), count, output);
             }
             else {
                 int owerflow = counter_writed_byts - byts;
                 int j = count - owerflow;
                 for (int i = 0; i < j; i++) {
+                    // ***** //
+                    debug(bytesDecodedFieBuf, 1, 0);
+                    // ***** //
                     fwrite(bytesDecodedFieBuf[i], sizeof(char), 1, output);
                 }
+                // ***** //
+                debug(bytesDecodedFieBuf, 0, 1);
+                // ***** //
                 counter_writed_byts -= owerflow;
                 break;
             }
@@ -154,4 +165,18 @@ void write_decoded_file(FILE* Input_file , struct slovarik* slovarik,unsigned lo
         printf("Error wd file");
         getch();
     }
+    fclose(output);
+}
+void debug(char* bytesDecodedFieBuf, int count, int print_this) {
+    static int ptr = 0;
+    static char buff[256];
+    for (int i = 0; i < count; i++) {
+        buff[ptr] = bytesDecodedFieBuf[i];
+        ptr++;
+    }
+    if (print_this > 0) {
+        buff[ptr] = '\0';
+        printf("%s", buff);
+    }
+    
 }

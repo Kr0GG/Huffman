@@ -10,16 +10,19 @@ int main() {//
     FILE* file = NULL;
     unsigned long n;
     char command;
+    char fileName[32];
 
 //file = fopen("f.txt", "rb");
 //if (file == NULL) {
 //    printf("hhhhh");
 //}
     do {
-        printf("0- code, 1 - decode");
+        printf("0- code, 1 - decode \n");
         command = getch();
         if (command == '0') {
-            file = open_file("f.txt", "r");
+            printf("Write file name:");
+            scanf( "%s",fileName );
+            file = open_file(fileName, "r");
             if (file == NULL) {
                 printf("Programm can't open File");
                 getch();
@@ -28,7 +31,9 @@ int main() {//
             
         }
         else {
-            file = open_file("f.txt", "rb");
+            printf("Write file name:");
+            scanf("%s", fileName);
+            file = open_file(fileName, "rb");
             if (file == NULL) {
                 printf("Programm can't open File");
                 getch();
@@ -49,6 +54,8 @@ int main() {//
 FILE* open_file(char* name, char* mode) {
     FILE* file = fopen(name, mode);
 }
+
+
 void code_logic(FILE* inputFile) {
     struct Table* table; //Table**
     box* slovarik;
