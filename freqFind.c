@@ -78,7 +78,7 @@ void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Ta
     char* coded_byts = NULL;
     unsigned int count_byts = 0;
 
-    output = fopen("output.bin", "wb");
+    output = fopen("output.rtf", "wb");
     if (output == NULL) {
         printf("Error opening file");
         getch();
@@ -108,7 +108,7 @@ void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Ta
         getch();
     }
     else {
-        printf("secsess!!!");
+        printf("finally compressed file!!!\nFile name - output.rtf\n");
         getch();
     }
 
@@ -123,7 +123,7 @@ void write_decoded_file(FILE* Input_file , struct slovarik* slovarik,unsigned lo
     char buf;
     char bytesDecodedFieBuf[8];
     int count = 0;
-    output = fopen("output2.bin", "wb");
+    output = fopen("output2.rtf", "wb");
     if (output == NULL) {
         printf("Error opening file");
         getch();
@@ -136,7 +136,7 @@ void write_decoded_file(FILE* Input_file , struct slovarik* slovarik,unsigned lo
             counter_writed_byts += count;
             if (counter_writed_byts <= byts) {
                 // ***** //
-                debug(bytesDecodedFieBuf, count,0);
+                //debug(bytesDecodedFieBuf, count,0);
                 // ***** //
                 fwrite(bytesDecodedFieBuf, sizeof(char), count, output);
             }
@@ -145,12 +145,12 @@ void write_decoded_file(FILE* Input_file , struct slovarik* slovarik,unsigned lo
                 int j = count - owerflow;
                 for (int i = 0; i < j; i++) {
                     // ***** //
-                    debug(bytesDecodedFieBuf, 1, 0);
+                    //debug(bytesDecodedFieBuf, 1, 0);
                     // ***** //
                     fwrite(bytesDecodedFieBuf, sizeof(char), 1, output);
                 }
                 // ***** //
-                debug(bytesDecodedFieBuf, 0, 1);
+               // debug(bytesDecodedFieBuf, 0, 1);
                 // ***** //
                 counter_writed_byts -= owerflow;
                 break;
@@ -159,7 +159,7 @@ void write_decoded_file(FILE* Input_file , struct slovarik* slovarik,unsigned lo
         }
     }
     if (feof(Input_file)||(counter_writed_byts == byts)) {
-        printf("ok");
+        printf("finally decompressed file!!!\nFile name - output2.rtf\n");
         getch();
     }
     else {

@@ -115,7 +115,7 @@ char getNextBit(char byte_from_c_file) { // возвращает замаскирвоанный бит
 }
 
 void addBitToPreString(char* prefString, char bit) {
-	int endStr = strlen(prefString);
+	unsigned long endStr = strlen(prefString);
 	if (bit == 0) {
 		prefString[endStr] = '0';
 		prefString[endStr+1] = '\0';
@@ -127,7 +127,7 @@ void addBitToPreString(char* prefString, char bit) {
 }
 
 int decoder(char byte_from_c_file, char* finded_bytes, box* slovarik, unsigned long slov_len) {//незначащие нули в конце файла????? 
-	static char pref_string [256];
+	static char pref_string [100000000];
 	static int init = 0;
 	//char finded_byts[8];//???????????
 	int ptr_finded_byts = 0;
@@ -135,6 +135,7 @@ int decoder(char byte_from_c_file, char* finded_bytes, box* slovarik, unsigned l
 	
 	if (init == 0) {
 		memset(pref_string, '\0', 256);//обнуление строки 
+		init++;
 	}
  
 	for (int i = 0; i < 8; i++) {
