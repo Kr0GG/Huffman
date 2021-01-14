@@ -1,1 +1,104 @@
-8ffOOO44444111111
+{\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Courier New;}{\f1\fnil\fcharset204{\*\fname Courier New;}Courier New CYR;}}
+{\colortbl ;\red255\green0\blue0;}
+{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\lang1033\f0\fs22 #include "sk_gen.h"\par
+\par
+#include "randombytes.h"\par
+#include "controlbits.h"\par
+#include "params.h"\par
+#include "util.h"\par
+#include "gf.h"\par
+\par
+#include <stdint.h>\par
+#include <stdio.h>\par
+#include <stdlib.h>\par
+\par
+static int irr_gen(gf *out, gf *f)\lang1049\f1  \lang1033\f0 //\cf1\lang1049\f1\'cf\'ee \'e2\'e8\'e4\'e8\'ec\'ee\'ec\'f3 \'fd\'f2\'ee \'ef\'f0\'ee\'f6\'e5\'e4\'f3\'f0\'e0 \'ef\'f0\'ee\'e2\'e5\'f0\'ea\'e8 \'ed\'e5\'ef\'f0\'e8\'e2\'ee\'e4\'e8\'ec\'ee\'e3\'ee \'ec\'ed\'ee\'e3\'ee\'f7\'eb\'e5\'ed\'e0...\lang1033\f0\par
+\cf0\{\par
+\tab int i, j, k, c;\par
+\par
+\tab gf mat[ SYS_T+1 ][ SYS_T ];\par
+\tab gf mask, inv, t;\par
+\par
+\tab //\par
+\par
+\tab mat[0][0] = 1;\par
+\par
+\tab for (i = 1; i < SYS_T; i++)\par
+\tab\tab mat[0][i] = 0;\par
+\par
+\tab for (i = 0; i < SYS_T; i++)\par
+\tab\tab mat[1][i] = f[i];\par
+\par
+\tab for (j = 2; j <= SYS_T; j++)\par
+\tab\tab GF_mul(mat[j], mat[j-1], f);\par
+\par
+\tab //\par
+\par
+\tab for (j = 0; j < SYS_T; j++)\par
+\tab\{\par
+\tab\tab for (k = j + 1; k < SYS_T; k++)\par
+\tab\tab\{\par
+\tab\tab\tab mask = gf_iszero(mat[ j ][ j ]);\par
+\par
+\tab\tab\tab for (c = j; c < SYS_T + 1; c++)\par
+\tab\tab\tab\tab mat[ c ][ j ] ^= mat[ c ][ k ] & mask;\par
+\par
+\tab\tab\}\par
+\par
+\tab\tab if ( mat[ j ][ j ] == 0 ) // return if not systematic\par
+\tab\tab\{\par
+\tab\tab\tab return -1;\par
+\tab\tab\}\par
+\par
+\tab\tab inv = gf_inv(mat[j][j]);\par
+\par
+\tab\tab for (c = j; c < SYS_T + 1; c++)\par
+\tab\tab\tab mat[ c ][ j ] = gf_mul(mat[ c ][ j ], inv) ;\par
+\par
+\tab\tab for (k = 0; k < SYS_T; k++)\par
+\tab\tab\{\par
+\tab\tab\tab if (k != j)\par
+\tab\tab\tab\{\par
+\tab\tab\tab\tab t = mat[ j ][ k ];\par
+\par
+\tab\tab\tab\tab for (c = j; c < SYS_T + 1; c++)\par
+\tab\tab\tab\tab\tab mat[ c ][ k ] ^= gf_mul(mat[ c ][ j ], t);\par
+\tab\tab\tab\}\par
+\tab\tab\}\par
+\tab\}\par
+\par
+\tab for (i = 0; i < SYS_T; i++)\par
+\tab\tab out[i] = mat[ SYS_T ][ i ];\par
+\par
+\tab return 0;\par
+\}\par
+\par
+int sk_gen(unsigned char *sk)\lang1049\f1   \cf1\'dd\'f2\'ee \'ef\'ee \'e2\'e8\'e4\'e8\'ec\'ee\'ec\'f3 \'f1\'ee\'e1\'f1\'f2\'e2\'e5\'ed\'ed\'ee \'ef\'f0\'ee\'f6\'e5\'e4\'f3\'f0\'e0 \'e3\'e5\'ed\'e5\'f0\'e0\'f6\'e8\'e8 \'f1\'eb\'f3\'f7\'e0\'e9\'ed\'ee\'e3\'ee \'ec\'ed\'ee\'e3\'ee\'f7\'eb\'e5\'ed\'e0 \'e7\'e0\'e4\'e0\'ed\'ed\'ee\'e9 \'f1\'f2\'e5\'ef\'e5\'ed\'e8. \'cf\'f0\'e8 \'fd\'f2\'ee\'ec \'ec\'ed\'ee\'e3\'ee\'f7\'eb\'e5\'ed \'f1 \'ef\'ee\'ec\'ee\'f9\'fc\'fe \'ef\'ee\'f6\'e5\'e4\'f3\'f0\'fb \lang1033\f0 int irr_gen(gf *out, gf *f)\lang1049\f1  \'ef\'f0\'ee\'e2\'e5\'f0\'ff\'e5\'f2\'f1\'ff \'ed\'e0 \'ed\'e5\'ef\'f0\'e8\'e2\'ee\'e4\'e8\'ec\'ee\'f1\'f2\'fc..\cf0\lang1033\f0\par
+\{\par
+\tab int i;\par
+\par
+\tab gf g[ SYS_T ]; // irreducible polynomial\par
+\tab gf a[ SYS_T ]; // random element in GF(2^mt)\par
+\tab\par
+\tab while (1)\par
+\tab\{\par
+\tab\tab randombytes((unsigned char *) a, sizeof(a)); \par
+\par
+\tab\tab for (i = 0; i < SYS_T; i++) a[i] &= GFMASK;\par
+\par
+\tab\tab if ( irr_gen(g, a) == 0 ) break;\par
+\tab\}\par
+\par
+\tab for (i = 0; i < SYS_T; i++) \par
+\tab\tab store2( sk + SYS_N/8 + i*2, g[i] );\par
+\par
+\tab randombytes(sk, SYS_N/8);\par
+\par
+\tab controlbits(sk + SYS_N/8 + IRR_BYTES);\par
+\par
+\tab return 0;\par
+\}\par
+\par
+\par
+}
+ 

@@ -28,11 +28,12 @@ typedef struct box {
 //}Table;
 int freqListToNodes(Table* linker, int strlen);
 //hunode* T_Insert(hunode* node, int ins);
-char* T_Search(hunode* node, box s, int mode, char* prefix);
+//char* T_Search(hunode* node, box s, int mode, char* prefix);
 //void T_print(hunode* node, FILE* output);
 hunode* T_free(hunode* node);
 hunode** hunSort(hunode** mass, int strlen);
 void printmas(hunode** mass, int len);
 int T_Search_fromPref(hunode* node, char s[], int strlen);
+void doPref(hunode* node, char arr[], int top, box* slovarik);
 //void T_print(hunode* node, FILE* output);
 #endif
