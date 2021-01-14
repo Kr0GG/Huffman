@@ -22,7 +22,7 @@ int main() {//
         if (command == '0') {
             printf("Write file name:");
             scanf( "%s",fileName );
-            file = open_file(fileName, "r");
+            file = open_file(fileName, "rb");
             if (file == NULL) {
                 printf("Programm can't open File");
                 getch();
@@ -66,7 +66,6 @@ void code_logic(FILE* inputFile) {
     free(table);
     free(slovarik);
     fclose(inputFile);
-    printf("ok ok ok");
 }
 void decode_logic(FILE* inputFile) {
     struct Table* table;
@@ -78,5 +77,4 @@ void decode_logic(FILE* inputFile) {
     free(slovarik);
     free(table);
     fclose(inputFile);
-    printf("ok ok ok");
 }
