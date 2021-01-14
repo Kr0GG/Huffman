@@ -7,7 +7,7 @@ void decode_logic(FILE* inputFile);
 void code_logic(FILE* inputFile);
 FILE* open_file(char* name, char* mode);
 int main() {//
-    FILE* file;
+    FILE* file = NULL;
     unsigned long n;
     char command;
 
@@ -37,13 +37,13 @@ int main() {//
 
         }
     } while (1);
-    file = fopen("f.txt", "rb");
+   /* file = fopen("f.txt", "rb");
     if (file == NULL) {
         printf("hhhhh");
     }
     else {
         struct Table* table = analysFileByts(file, &n);
-    }
+    }*/
 
 }
 FILE* open_file(char* name, char* mode) {
@@ -52,10 +52,10 @@ FILE* open_file(char* name, char* mode) {
 void code_logic(FILE* inputFile) {
     struct Table* table; //Table**
     box* slovarik;
-    unsigned long n;
-    table = analysFileByts(inputFile, &n);
+    unsigned long n, byts;
+    table = analysFileByts(inputFile, &n ,&byts);
     slovarik = freqListToNodes(table, n); // создает дерево 
-    write_coded_file(inputFile, n, &table, slovarik);
+    write_coded_file(inputFile, n, &table, slovarik, byts);
     free(table);
     free(slovarik);
     fclose(inputFile);
@@ -64,10 +64,10 @@ void code_logic(FILE* inputFile) {
 void decode_logic(FILE* inputFile) {
     struct Table* table;
     struct slovarik* slovarik;
-    unsigned long n;
-    table = read_table_of_coded_file(inputFile, &n);
+    unsigned long n, byts;
+    table = read_table_of_coded_file(inputFile, &n, &byts);
     slovarik = freqListToNodes(table, n); // создает дерево
-    write_decoded_file(inputFile, slovarik,n);
+    write_decoded_file(inputFile, slovarik,n, byts);
     free(slovarik);
     free(table);
     fclose(inputFile);

@@ -11,15 +11,16 @@ const unsigned int CHUNK_SIZE = 128;
     int freq;
 };*/
 
-struct Table* analysFileByts(FILE* F, unsigned long* n) {
+struct Table* analysFileByts(FILE* F, unsigned long* n, unsigned long* byts) {
     struct Table* table = NULL;
     char buf;
-    int counter = 0;
+    unsigned long count_bytes = 0;
     while (fread(&buf, sizeof(char), 1, F) == 1) {
         analysByte(buf, &table, n);
-        counter++;
+        count_bytes++;
     }
     if (feof(F)) {
+        *byts = count_bytes;
         return table;
     }
     else printf("File read error.");
@@ -57,10 +58,12 @@ void analysByte(char inputByte, struct Table** table, unsigned long* lenght_tabl
     *lenght_table = endTable;
 further:;
 }
-struct Table* read_table_of_coded_file(FILE* Coded_file, unsigned long* n) {
+struct Table* read_table_of_coded_file(FILE* Coded_file, unsigned long* n, unsigned long* bytes) {
     unsigned long len_table;
     struct Table* table;
     fread(&len_table, sizeof(unsigned long), 1, Coded_file);
+    fread(bytes, sizeof(unsigned long), 1, Coded_file);
+    *n = len_table;
     table = (struct Table*)malloc(sizeof(struct Table) * len_table);
     if (fread(table, sizeof(struct Table), len_table, Coded_file) != len_table) {
         printf("Error reading table");
@@ -69,7 +72,7 @@ struct Table* read_table_of_coded_file(FILE* Coded_file, unsigned long* n) {
     }
     return table;
 }
-void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Table** table, box* slovarik) {
+void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Table** table, box* slovarik, unsigned long byts) {
     FILE* output = NULL;
     char buf;
     char* coded_byts = NULL;
@@ -83,6 +86,7 @@ void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Ta
     }
 
     fwrite(&lenght_table, sizeof(unsigned long), 1, output);
+    fwrite(&byts, sizeof(unsigned long), 1, output);
     if (fwrite(*table, sizeof(struct Table), lenght_table, output) != lenght_table) {
         printf("Error writing file");
         getch();
@@ -111,7 +115,8 @@ void write_coded_file(FILE* Original_file, unsigned long lenght_table, struct Ta
 
     fclose(output);
 }
-void write_decoded_file(FILE* Input_file , struct slovarik* slovarik,unsigned long lenght_table/*, указатель на начало данных в закодированном файле*/) {
+void write_decoded_file(FILE* Input_file , struct slovarik* slovarik,unsigned long lenght_table, unsigned long byts/*, указатель на начало данных в закодированном файле*/) {
+    unsigned long counter_writed_byts = 0;
     FILE* output = NULL;
     char buf;
     char bytesDecodedFieBuf[8];
@@ -123,12 +128,25 @@ void write_decoded_file(FILE* Input_file , struct slovarik* slovarik,unsigned lo
         //exit(ERROR_FILE_OPEN);
     }
 
-    while (fread(&buf, sizeof(char), 1, Input_file) == 1) {
+    while (fread(&buf, sizeof(char), 1, Input_file) == 1){
         if (count = decoder(buf, bytesDecodedFieBuf, slovarik, lenght_table) != 0) {
-            fwrite(bytesDecodedFieBuf, sizeof(char), count, output);
+            counter_writed_byts += count;
+            if (counter_writed_byts <= byts) {
+                fwrite(bytesDecodedFieBuf, sizeof(char), count, output);
+            }
+            else {
+                int owerflow = counter_writed_byts - byts;
+                int j = count - owerflow;
+                for (int i = 0; i < j; i++) {
+                    fwrite(bytesDecodedFieBuf[i], sizeof(char), 1, output);
+                }
+                counter_writed_byts -= owerflow;
+                break;
+            }
+            count = 0;
         }
     }
-    if (feof(Input_file)) {
+    if (feof(Input_file)||(counter_writed_byts == byts)) {
         printf("ok");
         getch();
     }

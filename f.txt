@@ -101,4 +101,3 @@ int sk_gen(unsigned char *sk)\lang1049\f1   \cf1\'dd\'f2\'ee \'ef\'ee \'e2\'e8\'
 \par
 \par
 }
- 
