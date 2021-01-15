@@ -41,7 +41,7 @@ int freqListToNodes(Table* linker, int strlen) {
 	}
 	hunode* smallest = mass[len - 1]; //i // linker on address for last element
 	hunode* tmp;
-	hunode* lownow, prevlow; // for loop, linkers
+	hunode* lownow; // for loop, linkers
 	lownow = smallest;
 	for (int i = len; i != 1; i--) { //search_koren' = comprasing
 		hunode* node = (hunode*)malloc(sizeof(hunode));
@@ -111,11 +111,7 @@ int freqListToNodes(Table* linker, int strlen) {
 //}
 
 void doPref(hunode* node, char arr[], int top, box* slovarik) {
-<<<<<<< HEAD
 	static int i = 0; 
-=======
-	static int i = 0;
->>>>>>> 71075b3932bcb497ca1eec5954c715bc85243288
 	if (node == 0) {
 		printf("tree is not found");
 		return;
@@ -125,25 +121,17 @@ void doPref(hunode* node, char arr[], int top, box* slovarik) {
 		doPref(node->L, arr, top + 1, slovarik);
 		arr[top + 1] = '\0';
 	}
-<<<<<<< HEAD
-		if (!(node->L) && !(node->R)) { //IsLeaf
-		//arr[top-1] = '\0';
-=======
 	if (!(node->L) && !(node->R)) { //IsLeaf
 	//arr[top-1] = '\0';
->>>>>>> 71075b3932bcb497ca1eec5954c715bc85243288
 		for (int j = 0; j != strlen; j++) //??
 			if (node->data == slovarik[j].data) {
 				for (i = 0; i < top; i++)
 					slovarik[j].prefix[i] = arr[i];
 				slovarik[j].prefix[i] = '\0';
-<<<<<<< HEAD
-				printf("\n %c data \n", slovarik[j].data);
-				printf("\n %s prefix \n", slovarik[j].prefix);
-=======
 				//printf("\n %c data \n", slovarik[j].data);
 				//printf("\n %s prefix \n", slovarik[j].prefix);
->>>>>>> 71075b3932bcb497ca1eec5954c715bc85243288
+				//printf("\n %c data \n", slovarik[j].data);
+				//printf("\n %s prefix \n", slovarik[j].prefix);
 				break;//j = strlen;
 				//j--;
 			}
@@ -176,8 +164,8 @@ hunode** hunSort(hunode** mass, int strlen) {
 		}
 		strlen--;
 		//printmas(mass, strlen);
-		return mass;
 	}
+	return mass;
 }
 void printmas(hunode** mass, int len) { //for debug
 	for (len; len != 0; len--) {
